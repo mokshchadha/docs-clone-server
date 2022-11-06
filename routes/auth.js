@@ -5,10 +5,10 @@ const auth = require("../middlewares/auth");
 const authRouter = express.Router();
 
 authRouter.post("/api/login", async (req, res) => {
+  console.log(req.url);
+  console.log(JSON.stringify(req.body));
   try {
     const { name, email, profilePicture } = req.body;
-
-    console.log({ name, email, profilePicture, body: req.body });
 
     let user = await User.findOne({ email });
 

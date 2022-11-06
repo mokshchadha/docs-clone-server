@@ -1,20 +1,20 @@
 const express = require("express");
 const mongoose = require("mongoose");
-
 const cors = require("cors");
-
 const http = require("http");
 const authRouter = require("./routes/auth");
+const docRouter = require("./routes/document");
 
 const PORT = process.env.PORT | 3001;
 
 const app = express();
-var server = http.createServer(app);
-var io = require("socket.io")(server);
+const server = http.createServer(app);
+const io = require("socket.io")(server);
 
 app.use(express.json());
 app.use(cors());
 app.use(authRouter);
+app.use(docRouter);
 
 const DB =
   "mongodb+srv://moksh:simpleburgler1998@cluster0.cpws5.mongodb.net/?retryWrites=true&w=majority";
@@ -22,7 +22,7 @@ const DB =
 mongoose
   .connect(DB)
   .then(() => {
-    console.log("Connection successful!");
+    console.log("connected to atlas !");
   })
   .catch((err) => {
     console.log(err);
@@ -43,9 +43,11 @@ io.on("connection", (socket) => {
 });
 
 const saveData = async (data) => {
-  let document = await Document.findById(data.room);
-  document.content = data.delta;
-  document = await document.save();
+  console.log({ data });
+  // let document = await Document.findById(ObjectId(data.room));
+  // console.log({ document });
+  // document.content = data.delta;
+  // document = await document.save();
 };
 
 server.listen(PORT, "0.0.0.0", () => {

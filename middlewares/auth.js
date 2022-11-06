@@ -2,6 +2,14 @@ const jwt = require("jsonwebtoken");
 
 const auth = async (req, res, next) => {
   try {
+    console.log(
+      new Date().toLocaleDateString(),
+      new Date().toLocaleTimeString(),
+      req.url
+    );
+    if (Object.keys(req.body).length > 0) {
+      console.log(JSON.stringify(req.body));
+    }
     const token = req.header("x-auth-token");
 
     if (!token)
