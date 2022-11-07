@@ -20,6 +20,6 @@ const documentSchema = mongoose.Schema({
   },
 });
 
-const Document = mongoose.model("Document", documentSchema);
+const DocumentRepo = mongoose.model("Document", documentSchema);
 
-module.exports = Document;
+module.exports = DocumentRepo;

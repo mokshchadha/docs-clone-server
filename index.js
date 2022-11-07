@@ -4,6 +4,7 @@ const cors = require("cors");
 const http = require("http");
 const authRouter = require("./routes/auth");
 const docRouter = require("./routes/document");
+const DocumentRepo = require("./models/document");
 
 const PORT = process.env.PORT | 3001;
 
@@ -16,8 +17,7 @@ app.use(cors());
 app.use(authRouter);
 app.use(docRouter);
 
-const DB =
-  "mongodb+srv://moksh:simpleburgler1998@cluster0.cpws5.mongodb.net/?retryWrites=true&w=majority";
+const DB = ""; //FILL IT UP
 
 mongoose
   .connect(DB)
@@ -43,11 +43,9 @@ io.on("connection", (socket) => {
 });
 
 const saveData = async (data) => {
-  console.log({ data });
-  // let document = await Document.findById(ObjectId(data.room));
-  // console.log({ document });
-  // document.content = data.delta;
-  // document = await document.save();
+  let document = await DocumentRepo.findById(data.room);
+  document.content = data.delta;
+  document = await document.save();
 };
 
 server.listen(PORT, "0.0.0.0", () => {
